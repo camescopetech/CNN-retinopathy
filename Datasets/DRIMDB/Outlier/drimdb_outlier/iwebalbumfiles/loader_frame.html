@@ -1,0 +1,137 @@
+<html>
+<head>
+  <script>
+    var GB = parent.GB_CURRENT;
+    document.write('<script type="text/javascript" src="ajs.js"><\/script>');
+    if(GB.use_fx) {
+        document.write('<script type="text/javascript" src="ajs_fx.js"><\/script>');
+    }
+  </script>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #GB_frame {
+      visibility: hidden;
+      width: 100%;
+
+    }
+
+    #loading {
+      padding-top: 50px;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      text-align: center;
+      vertical-align: middle;
+    }
+	
+	#comment {
+	background-color: #DDDDDD;
+	color:#000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-bottom: 2px;
+	padding-left: 6px;
+	}
+	#slideshowbar {
+	background-color: #DDDDDD;
+	color:#000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-bottom: 2px;
+	padding-left: 6px;
+	}
+	
+  </style>
+</head>
+<body onLoad="slideshowscript(6000);">
+<div id="loading">
+  <img src="indicator.gif" alt="loading...">
+</div>
+
+<script>
+var loading = AJS.$('loading');
+var gb_type = GB.type;
+var gb_url = GB.url;
+var gb_comment = GB.comment;
+var gb_slideshow = GB.slideshow;
+
+function slideshowscript(slideshow_time){
+	if(gb_slideshow=='startslideshow'){
+		setTimeout("parent.parent.GB_next();", slideshow_time)
+	}
+}
+//Start loading in the iframe
+if(gb_type == "page") {
+  document.write('<iframe id="GB_frame" src="' + gb_url + '" frameborder="0"></iframe>');
+}
+else {
+  var img_holder = new Image();
+  img_holder.src = gb_url;
+  document.write('<img id="GB_frame" src="' + gb_url + '" alt="' + gb_comment + '" title="' + gb_comment + '"><div id="comment">'+gb_comment+ '</div>')
+
+}
+var frame = AJS.$('GB_frame');
+</script>
+
+</body>
+<script>
+function setupOuterGB() {
+    frame.style.visibility = 'visible';
+    GB.setFrameSize();
+    GB.setWindowPosition();
+}
+
+function loaded() {
+    AJS.removeElement(loading);
+
+    GB.overlay.innerHTML += "&nbsp;"; //Safari bugfix
+    
+    if(gb_type == "image") {
+        if(img_holder.width != 0 && img_holder.height != 0) {
+            var width = img_holder.width;
+            var height = img_holder.height;
+			document.getElementById("comment").style.width = width;
+			var comment_div_height = document.getElementById("comment").scrollHeight;
+			if(comment_div_height<=6){comment_div_height=0};	
+
+            GB.width = width;
+			if(gb_comment==''){
+            	GB.height = height;
+			}
+			else{
+				GB.height = height+comment_div_height;
+			}
+            setupOuterGB();
+
+            if(GB.use_fx) {
+                AJS.setOpacity(frame, 0);
+                AJS.fx.fadeIn(frame);
+            }
+        }
+    }
+    else {
+        GB.width = frame.offsetWidth;
+        GB.height = frame.offsetHeight;
+        setupOuterGB();
+    }
+}
+
+if(GB.show_loading) {
+    AJS.AEV(window, 'load', function(e) {
+        loaded();
+    });
+}
+else {
+    loaded();
+}
+</script>
+</html>

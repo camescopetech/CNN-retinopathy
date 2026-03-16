@@ -1,0 +1,115 @@
+body{
+	color: #333333;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 16px;
+	background-image: url(bg.jpg);
+	background-repeat: repeat-x;
+	background-color: #DDDDDD;
+	}
+
+#album_header_div {
+	margin-bottom: 12px;
+	text-align: center;
+	font-family: "Trebuchet MS";
+	font-size: 24px;
+	font-weight: bold;
+}	
+
+#album_header_comments_div {
+	margin-bottom: 12px;
+	text-align: center;
+	font-family: "Trebuchet MS";
+	font-size: 14px;
+}	
+
+#back_to_home {
+	text-align: center;
+	margin-bottom: 12px;	
+}
+
+#iwebalbum {
+
+}
+
+.iwebalbum_table {
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+}
+
+.iwebalbum_photobox_table {
+	width:123px;
+	height:123px;
+	background-repeat:no-repeat;
+	margin-right: 6px;
+	margin-bottom: 12px;
+	margin-left: 6px;
+	background-image: url(bg_slide.gif);
+	padding-right: 2px;
+}
+
+a:link, a:visited  {
+	text-decoration: underline;
+ 	color: #535B79;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.photobox { border: 1px solid #aaaaaa;}
+a:link .photobox {
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+}
+a:visited .photobox {
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+}
+a:hover .photobox {
+	border-top-color: #999999;
+	border-right-color: #999999;
+	border-bottom-color: #999999;
+	border-left-color: #999999;
+}
+
+#pages {
+	text-align: center;
+	margin-top: 18px;
+}
+
+#pages span{
+	margin-right: 5px;
+	padding: 4px;
+}
+
+#pages span a{
+	padding: 4px;
+}
+
+#pages span a:hover{
+	background-color: #000099;
+	color: #FFFFFF;
+	padding: 4px;
+}
+
+#generator {
+	text-align: right;
+	clear: both;
+	margin-top: 40px;
+	padding-right: 20px;
+	padding-bottom: 6px;
+	font-size: 10px;
+}
+#slideshow {
+	text-align: center;
+	margin-top: 18px;
+}
