@@ -1,6 +1,4 @@
-c'est u# CNN-retinopathy — Diabetic Retinopathy Detection
-
-**Project 5 — AI Based Image Processing | ING3 IA A, Group 6 | CY Tech**
+**AI Based Image Processing | ING3 IA A | CY Tech**
 Bezet Camille · Brasa Franklin · Kenmogne Loïc · Martins Soares Flavio
 *3 December 2025 — submitted to M. Djahid ABDELMOUMENE and Pr. Mai khuong NGUYEN VERGER*
 
