@@ -1,4 +1,4 @@
-c'est u# CNN-retinopathy — Diabetic Retinopathy Detection
+# CNN-retinopathy — Diabetic Retinopathy Detection
 
 **Project 5 — AI Based Image Processing | ING3 IA A, Group 6 | CY Tech**
 Bezet Camille · Brasa Franklin · Kenmogne Loïc · Martins Soares Flavio
@@ -32,7 +32,17 @@ Faithfully reproduce and evaluate the CNN architecture proposed by **Abed et al.
 
 Only **DiaretDB0** is included in this repository (`Datasets/DiaretDB0/`).
 
-> See **Report § Data** (pp. 10–14) and **Slide 6** for technical characteristics and limitations of each dataset (class imbalance, no healthy images in DB1, non-medical nature of DRIMDB).
+### Sample fundus images (DiaretDB0)
+
+<table>
+  <tr>
+    <td style="text-align:center"><img src="Datasets/DiaretDB0/resources/images/diaretdb0_fundus_images/image001.png" width="220" alt="Fundus image 001 — pathological"/><br/><sub>image001 — pathological</sub></td>
+    <td style="text-align:center"><img src="Datasets/DiaretDB0/resources/images/diaretdb0_fundus_images/image002.png" width="220" alt="Fundus image 002 — pathological"/><br/><sub>image002 — pathological</sub></td>
+    <td style="text-align:center"><img src="Datasets/DiaretDB0/resources/images/diaretdb0_fundus_images/image003.png" width="220" alt="Fundus image 003 — pathological"/><br/><sub>image003 — pathological</sub></td>
+  </tr>
+</table>
+
+> See **Report § Data** (pp. 10–14) and **Slide 6** for technical characteristics and limitations of each dataset.
 
 ---
 
@@ -71,7 +81,7 @@ Optimizer : SGD (lr=0.01, momentum=0.9) | Loss : Categorical Crossentropy
 
 ## Results — Healthy / Pathological Classification
 
-80/20 train-test split, evaluated on all 3 datasets:
+80/20 train-test split, evaluated on all 3 datasets.
 
 | Dataset   | Epochs | Abed et al. (2020) | Our project  |
 |-----------|--------|--------------------|--------------|
@@ -82,9 +92,64 @@ Optimizer : SGD (lr=0.01, momentum=0.9) | Loss : Categorical Crossentropy
 | DRIMDB    | 1      | 68%                | 40.91%       |
 | DRIMDB    | 20     | 100%               | 43.2%        |
 
-**Warning — critical interpretation:** the high scores on DB0 (84.6%) and DB1 (100%) are misleading. The model learns the majority-class bias ("Pathological") rather than developing a genuine discriminative ability. The failure on DRIMDB (43.2% vs. 97.5% in the paper) reveals a methodological inconsistency in the original study (image quality labels ≠ clinical criteria).
+<details>
+<summary><b>DiaretDB0 — Training curves & confusion matrix</b></summary>
+<br/>
 
-> See **Report § Interpretation** (pp. 20–21) and **Slide 10**.
+| Metric | 1 epoch | 20 epochs |
+|--------|---------|-----------|
+| Accuracy | 84.6% | 84.62% |
+| Reference (Abed et al.) | 62.67% | 100% |
+
+<!-- Drop your training-curve and confusion-matrix plots below -->
+<!-- Example:
+<img src="docs/plots/db0_accuracy.png" width="420"/>
+<img src="docs/plots/db0_confusion.png" width="300"/>
+-->
+
+> The 84.6% accuracy is stable across epochs, suggesting the model converges quickly on this dataset. The result exceeds the paper's 1-epoch baseline but does not reach the paper's 20-epoch 100% — likely because the original study may have suffered from data leakage or overfitting.
+
+</details>
+
+<details>
+<summary><b>DiaretDB1 — Training curves & confusion matrix</b></summary>
+<br/>
+
+| Metric | 1 epoch | 20 epochs |
+|--------|---------|-----------|
+| Accuracy | 100% | 100% |
+| Reference (Abed et al.) | 57.9% | 99.1% |
+
+<!-- Drop your training-curve and confusion-matrix plots below -->
+<!-- Example:
+<img src="docs/plots/db1_accuracy.png" width="420"/>
+<img src="docs/plots/db1_confusion.png" width="300"/>
+-->
+
+> 100% accuracy on DiaretDB1 is explained by the fact that **all 89 images are pathological**. A model predicting "Pathological" for every input trivially achieves perfect accuracy — this is a majority-class bias, not genuine learning.
+
+</details>
+
+<details>
+<summary><b>DRIMDB — Training curves & confusion matrix</b></summary>
+<br/>
+
+| Metric | 1 epoch | 20 epochs |
+|--------|---------|-----------|
+| Accuracy | 40.91% | 43.2% |
+| Reference (Abed et al.) | 68% | 100% |
+
+<!-- Drop your training-curve and confusion-matrix plots below -->
+<!-- Example:
+<img src="docs/plots/drimdb_accuracy.png" width="420"/>
+<img src="docs/plots/drimdb_confusion.png" width="300"/>
+-->
+
+> DRIMDB uses image-quality labels (good/bad/outlier), not clinical DR labels. Our model — trained for healthy/pathological classification — cannot generalise here. The gap with the paper reveals a **methodological inconsistency** in the original study.
+
+</details>
+
+> **Critical interpretation:** the high scores on DB0 and DB1 reflect majority-class bias, not genuine discriminative ability. See **Report § Interpretation** (pp. 20–21) and **Slide 10**.
 
 ---
 
@@ -92,7 +157,11 @@ Optimizer : SGD (lr=0.01, momentum=0.9) | Loss : Categorical Crossentropy
 
 To work around the class bias, the problem is reformulated as **binary haemorrhage detection** on DiaretDB0 (29 images with haemorrhages / 101 without).
 
-Notebook: `Classification selon le label "hémorragies".ipynb`
+Notebook: [`Classification selon le label "hémorragies".ipynb`](Classification%20selon%20le%20label%20%22h%C3%A9morragies%22.ipynb)
+
+<details>
+<summary><b>Haemorrhage classification — results by epoch</b></summary>
+<br/>
 
 | Epochs | Accuracy   | Loss     | Interpretation                        |
 |--------|------------|----------|---------------------------------------|
@@ -100,7 +169,15 @@ Notebook: `Classification selon le label "hémorragies".ipynb`
 | **13** | **76.92%** | **0.59** | **Optimum — best generalisation**     |
 | 20     | 69.23%     | 0.67     | Overfitting — performance degrades    |
 
-The model peaks at 13 epochs then overfits, highlighting the importance of early stopping.
+<!-- Drop your training-curve and confusion-matrix plots below -->
+<!-- Example:
+<img src="docs/plots/haemorrhage_accuracy.png" width="420"/>
+<img src="docs/plots/haemorrhage_loss.png" width="420"/>
+-->
+
+The model peaks at **epoch 13** then overfits, highlighting the importance of early stopping on small datasets.
+
+</details>
 
 > See **Report § Possible Extensions** (pp. 22–24) and **Slides 11–13**.
 
